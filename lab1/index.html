@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="eng">
+<head>
+    <title>Color Converter</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<h1>Color Converter</h1>
+
+<div style="float:left">
+    <h2>CMYK</h2>
+    <label for="cmyk-c">C (from 0 to 1):</label>
+    <input type="number" id="cmyk-c" min="0" max="1" step="1" value="0">
+    <input type="range" id="cmyk-c-range" min="0" max="100" value="0"><br>
+
+    <label for="cmyk-m">M (from 0 to 1):</label>
+    <input type="number" id="cmyk-m" min="0" max="100" step="1" value="0">
+    <input type="range" id="cmyk-m-range" min="0" max="100" value="0"><br>
+
+    <label for="cmyk-y">Y (from 0 to 1):</label>
+    <input type="number" id="cmyk-y" min="0" max="100" step="1" value="0">
+    <input type="range" id="cmyk-y-range" min="0" max="100" value="0"><br><br>
+
+    <label for="cmyk-k">K (0 or 1):</label>
+    <input type="number" id="cmyk-k" min="0" max="1" step="1" value="0">
+    <input type="range" id="cmyk-k-range" min="0" max="1" value="0"><br>
+
+    <h2>RGB</h2>
+    <label for="rgb-r">R (from 0 to 255):</label>
+    <input type="number" id="rgb-r" min="0" max="255" step="1" value="255">
+    <input type="range" id="rgb-r-range" min="0" max="255" value="255"><br>
+
+    <label for="rgb-g">G (from 0 to 255):</label>
+    <input type="number" id="rgb-g" min="0" max="255" step="1" value="255">
+    <input type="range" id="rgb-g-range" min="0" max="255" value="255"><br>
+
+    <label for="rgb-b">B (from 0 to 255):</label>
+    <input type="number" id="rgb-b" min="0" max="255" step="1" value="255">
+    <input type="range" id="rgb-b-range" min="0" max="255" value="255"><br>
+
+    <h2>HSV</h2>
+    <label for="hsv-h">H (from 0 to 360):</label>
+    <input type="number" id="hsv-h" min="0" max="360" step="1" value="0">
+    <input type="range" id="hsv-h-range" min="0" max="360" value="0"><br>
+
+    <label for="hsv-s">S (in %):</label>
+    <input type="number" id="hsv-s" min="0" max="100" step="1" value="0">
+    <input type="range" id="hsv-s-range" min="0" max="100" value="0"><br>
+
+    <label for="hsv-v">V (in %):</label>
+    <input type="number" id="hsv-v" min="0" max="100" step="1" value="100">
+    <input type="range" id="hsv-v-range" min="0" max="100" value="100"><br><br>
+
+    <h2>Preview</h2>
+    <div id="color-preview" style="width: 200px; height: 200px"></div>
+</div>
+<div style="margin-left: 50px; float: left">
+    <h2>Click to select color</h2><br>
+    <canvas id="canvas" width="400" height="400"></canvas>
+</div>
+<div>
+    <img src="img/color_wheel.png" id="color-wheel" alt="colors" style="width: 400px" hidden="hidden">
+</div>
+
+<script src="js/script.js"></script>
+</body>
+</html>
