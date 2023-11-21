@@ -1,5 +1,27 @@
 import turtle
 import time
+from turtle import RawTurtle, TurtleScreen
+from tkinter import *
+
+
+class Window(Tk):
+    def __init__(self, title, geometry):
+        super().__init__()
+        self.running = True
+        self.geometry(geometry)
+        self.title(title)
+        self.protocol("WM_DELETE_WINDOW", self.destroy_window)
+        self.canvas = Canvas(self)
+        self.canvas.pack(side=LEFT, expand=True, fill=BOTH)
+        self.turtle = RawTurtle(TurtleScreen(self.canvas))
+
+    def update_window(self):
+        if self.running:
+            self.update()
+
+    def destroy_window(self):
+        self.running = False
+        self.destroy()
 
 
 def draw_line(t, x1, y1, x2, y2):
@@ -41,7 +63,7 @@ def draw_grid(t, x_start, y_start, cell_size, cells_number):
 
 
 def draw_pixel(t, x, y, color):
-    draw_rect(t, recount_coord(x), recount_coord(y), cell_size, cell_size, color)
+    draw_rect(t, recount_coord(x), recount_coord(y), max(cell_size, 1), max(cell_size, 1), color)
 
 
 def simple_algorithm(x1, y1, x2, y2):
@@ -93,9 +115,11 @@ def bresenham_algorithm(x1, y1, x2, y2):
 
 
 def recount_coord(coord):
+    # coord *= max(cell_size, 1)
     coord *= cell_size
     coord += x_start
-    return coord
+    # print(coord)
+    return round(coord)
 
 
 def draw_points(points, color):
@@ -112,9 +136,11 @@ if __name__ == "__main__":
     max_coord = max(x_max, y_max) + 1
 
     screen = turtle.getscreen()
+    # create windows
+    win1 = Window('Turtle Window 1', '800x480+0+0')
+    turtle.tracer(0, 0)
     t = turtle.Turtle()
-    t.speed('fastest')
-    # t.speed(0)
+    t2 = win1.turtle
     t.shapesize(1, 1, 1)
     width = 750
     x_start = -width // 2
@@ -123,28 +149,39 @@ if __name__ == "__main__":
     cell_size = width / max_coord
     cells_number = round(max_coord)
     multiplier = (cells_number + 99) // 100
-    print("Масштаб:", multiplier, "точек в одной клетке")
-    print("Пошаговый алгоритм -- синяя линия")
-    print("Алгоритм Брезенхема -- зеленая линия")
+    print(cell_size)
     # Отрисовка сетки
     draw_grid(t, x_start, y_start, cell_size * multiplier, cells_number // multiplier)
+
+    result_string = ''
+
+    result_string += "Масштаб: " + str(multiplier) + " точек в одной клетке\n"
+    result_string += "Пошаговый алгоритм -- синяя линия\n"
+    result_string += "Алгоритм Брезенхема -- зеленая линия\n"
 
     start_time = time.time()
     # Здесь вызывается пошаговый алгоритм
     points_simple = simple_algorithm(x1_simple, y1_simple, x2_simple, y2_simple)
     end_time = time.time()
     execution_time = end_time - start_time
-    print("Время работы пошагового алгоритма: ", execution_time)
+    result_string += "Время рассчета пошагового алгоритма: " + str(execution_time) + '\n'
 
     start_time = time.time()
     # Здесь вызывается алгоритм Брезенхема
     points_bresenham = bresenham_algorithm(x1_br, y1_br, x2_br, y2_br)
     end_time = time.time()
     execution_time = end_time - start_time
-    print("Время работы алгоритма Брезенхема: ", execution_time)
+    result_string += "Время рассчета алгоритма Брезенхема: " + str(execution_time) + '\n'
+
+    t2.up()
+    t2.goto(-100, -100)
+    t2.down()
+    t2.write(result_string, font=("Arial", 16, "normal"))
 
     # Отрисовка линий
     draw_points(points_simple, 'blue')
     draw_points(points_bresenham, 'green')
+    # print(points_bresenham)
 
+    turtle.update()
     turtle.mainloop()
